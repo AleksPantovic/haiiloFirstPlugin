@@ -1,0 +1,26 @@
+{
+    "manifestVersion": "2.0.0",
+    "pluginVersion": "0.1.0",
+    "name": {
+      "en": "Demo Plugin - Step 1",
+      "de": "Demo Plugin - Step 1"
+    },
+    "description": {
+      "en": "A simple demo plug-in",
+      "de": "Ein einfaches Beispiel-Plug-in"
+    },
+    "entryPoints": [
+      {
+        "id": "510e9e0c-e3b8-44a8-8db1-5185d3d844ce",
+        "url": "/",
+        "name": {
+          "en": "My first plug-in view",
+          "de": "Meine erste Plug-in Ansicht"
+        },
+        "description": {
+          "en": "Showing my plug-in",
+          "de": "Mein Plug-in"
+        }
+      }
+    ]
+  }
