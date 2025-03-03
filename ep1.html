@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Personal View 1</title>
+</head>
+<body>
+  <h1>Hello, <span id="userName">John Doe</span>!</h1>
+  <p>Welcome to your personal dashboard. Your email is <span id="userEmail">john.doe@example.com</span>.</p>
+
+  <script>
+    // Mocking COYO API data that would normally be provided by the context
+    const mockData = {
+      userName: "John Doe",
+      userEmail: "john.doe@example.com",
+      userRole: "Admin"
+    };
+    document.getElementById('userName').textContent = mockData.userName;
+    document.getElementById('userEmail').textContent = mockData.userEmail;
+  </script>
+</body>
+</html>

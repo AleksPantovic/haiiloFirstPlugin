@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@coyoapp/plugin-adapter": "^0.3.1"
+  }
+}
