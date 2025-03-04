@@ -1,15 +1,35 @@
 {
   "manifestVersion": "2.0.0",
-  "pluginVersion": "0.2.0",
+  "pluginVersion": "0.3.1",
   "name": {
-    "en": "Demo Plugin - Step 2",
-    "de": "Demo Plugin - Step 2"
+    "en": "Demo Plugin - Step 3a",
+    "de": "Demo Plugin - Step 3a"
   },
   "description": {
     "en": "A simple demo plug-in",
     "de": "Ein einfaches Beispiel-Plug-in"
   },
   "context": ["userName"],
+  "config": [
+    {
+      "key": "background",
+      "type": "text",
+      "label": {
+        "en": "Background color",
+        "de": "Hintergrundfarbe"
+      },
+      "placeholder": {
+        "en": "HEX color - #AFD62D",
+        "de": "HEX color - #AFD62D"
+      },
+      "description": {
+        "en": "Enter a valid HEX color code.",
+        "de": "Gib einen validen HEX-Farbcode an."
+      },
+      "pattern": "^#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$",
+      "required": true
+    }
+  ],
   "entryPoints": [
     {
       "id": "510e9e0c-e3b8-44a8-8db1-5185d3d844ce",
@@ -33,7 +53,64 @@
         "en": "Displaying view 2",
         "de": "Ansicht 2 wird angezeigt"
       },
-      "url": "/ep2.html"
+      "url": "/ep2.html",
+      "config": [
+        {
+          "key": "spotifyLink",
+          "type": "text",
+          "label": {
+            "en": "Spotify Link",
+            "de": "Spotify Link"
+          },
+          "placeholder": {
+            "en": "https://open.spotify.com/album/4RuzGKLG99XctuBMBkFFOC",
+            "de": "https://open.spotify.com/album/4RuzGKLG99XctuBMBkFFOC"
+          },
+          "description": {
+            "en": "Enter a spotify link you get through the share menu.",
+            "de": "Gib einen Spotify Link, den du über das Teilen-Menu erhältst, ein."
+          },
+          "pattern": "^https:\\/\\/open\\.spotify\\.com\\/(track|album|playlist)\\/[A-Za-z0-9]+$",
+          "required": true
+        },
+        {
+          "key": "spotifyLayout",
+          "type": "radio",
+          "label": {
+            "en": "Spotify Layout",
+            "de": "Spotify Layout"
+          },
+          "description": {
+            "en": "The layout of the spotify view",
+            "de": "Layout der Spotify Anzeige"
+          },
+          "options": [
+            {
+              "value": "LARGE",
+              "label": {
+                "en": "Large",
+                "de": "Groß"
+              },
+              "description": {
+                "en": "Large layout with song list",
+                "de": "Große Anzeige mit Liederliste"
+              }
+            },
+            {
+              "value": "COMPACT",
+              "label": {
+                "en": "Compact",
+                "de": "Kompakt"
+              },
+              "description": {
+                "en": "Compact layout with single song",
+                "de": "Kompakte Anzeige mit einem Lied"
+              }
+            }
+          ],
+          "required": true
+        }
+      ]
     }
   ]
 }

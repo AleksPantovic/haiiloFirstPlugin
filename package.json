@@ -1,5 +1,8 @@
 {
   "dependencies": {
     "@coyoapp/plugin-adapter": "^0.3.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.2"
   }
 }
