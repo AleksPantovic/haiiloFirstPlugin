@@ -27,7 +27,8 @@
         "de": "Gib einen validen HEX-Farbcode an."
       },
       "pattern": "^#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$",
-      "required": true
+      "required": true,
+      "default": "#FFFFFF"
     }
   ],
   "entryPoints": [
@@ -41,19 +42,7 @@
         "en": "Greeting the user",
         "de": "Persönlicher Gruß"
       },
-      "url": "/ep1.html"
-    },
-    {
-      "id": "4f434887-9289-48ac-986d-4ff1f37ab618",
-      "name": {
-        "en": "View 2",
-        "de": "Ansicht 2"
-      },
-      "description": {
-        "en": "Displaying view 2",
-        "de": "Ansicht 2 wird angezeigt"
-      },
-      "url": "/ep2.html",
+      "url": "/ep1.html",
       "config": [
         {
           "key": "spotifyLink",
@@ -67,11 +56,12 @@
             "de": "https://open.spotify.com/album/4RuzGKLG99XctuBMBkFFOC"
           },
           "description": {
-            "en": "Enter a spotify link you get through the share menu.",
+            "en": "Enter a Spotify link you get through the share menu.",
             "de": "Gib einen Spotify Link, den du über das Teilen-Menu erhältst, ein."
           },
           "pattern": "^https:\\/\\/open\\.spotify\\.com\\/(track|album|playlist)\\/[A-Za-z0-9]+$",
-          "required": true
+          "required": true,
+          "default": "https://open.spotify.com/album/4RuzGKLG99XctuBMBkFFOC" 
         },
         {
           "key": "spotifyLayout",
@@ -81,7 +71,7 @@
             "de": "Spotify Layout"
           },
           "description": {
-            "en": "The layout of the spotify view",
+            "en": "The layout of the Spotify view",
             "de": "Layout der Spotify Anzeige"
           },
           "options": [
@@ -108,7 +98,79 @@
               }
             }
           ],
-          "required": true
+          "required": true,
+          "default": "LARGE" 
+        }
+      ]
+    },
+    {
+      "id": "4f434887-9289-48ac-986d-4ff1f37ab618",
+      "name": {
+        "en": "View 2",
+        "de": "Ansicht 2"
+      },
+      "description": {
+        "en": "Displaying view 2",
+        "de": "Ansicht 2 wird angezeigt"
+      },
+      "url": "/ep2.html",
+      "config": [
+        {
+          "key": "spotifyLink",
+          "type": "text",
+          "label": {
+            "en": "Spotify Link",
+            "de": "Spotify Link"
+          },
+          "placeholder": {
+            "en": "https://open.spotify.com/album/4RuzGKLG99XctuBMBkFFOC",
+            "de": "https://open.spotify.com/album/4RuzGKLG99XctuBMBkFFOC"
+          },
+          "description": {
+            "en": "Enter a Spotify link you get through the share menu.",
+            "de": "Gib einen Spotify Link, den du über das Teilen-Menu erhältst, ein."
+          },
+          "pattern": "^https:\\/\\/open\\.spotify\\.com\\/(track|album|playlist)\\/[A-Za-z0-9]+$",
+          "required": true,
+          "default": "https://open.spotify.com/album/4RuzGKLG99XctuBMBkFFOC" 
+        },
+        {
+          "key": "spotifyLayout",
+          "type": "radio",
+          "label": {
+            "en": "Spotify Layout",
+            "de": "Spotify Layout"
+          },
+          "description": {
+            "en": "The layout of the Spotify view",
+            "de": "Layout der Spotify Anzeige"
+          },
+          "options": [
+            {
+              "value": "LARGE",
+              "label": {
+                "en": "Large",
+                "de": "Groß"
+              },
+              "description": {
+                "en": "Large layout with song list",
+                "de": "Große Anzeige mit Liederliste"
+              }
+            },
+            {
+              "value": "COMPACT",
+              "label": {
+                "en": "Compact",
+                "de": "Kompakt"
+              },
+              "description": {
+                "en": "Compact layout with single song",
+                "de": "Kompakte Anzeige mit einem Lied"
+              }
+            }
+          ],
+          "required": true,
+          "default": "LARGE" 
         }
       ]
     }

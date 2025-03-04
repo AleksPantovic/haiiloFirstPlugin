@@ -1,15 +1,9 @@
 import {PluginAdapter} from '@coyoapp/plugin-adapter';
 
-interface PluginData {
-    'ctx.userName': string;
-    'cfg.background': string;
-    'cfg.spotifyLayout': "LARGE" | "COMPACT";
-    'cfg.spotifyLink': string;
-    // Add other properties as needed
-}
 export class DemoPlugin {
     constructor() {
-        new PluginAdapter().init().then(data => {
+        const adapter = new PluginAdapter();
+        adapter.init().then(data => {
             const name = data['ctx.userName'];
             this.changeName(name);
 
@@ -22,6 +16,7 @@ export class DemoPlugin {
                 this.addSpotify(spotifyLink, spotifyLayout);
             }
         });
+        adapter.observeHeight();
     }
 
     private changeName(userName: string) {
