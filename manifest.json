@@ -31,10 +31,6 @@
       "default": "#FFFFFF"
     }
   ],
-  "permissions": [
-    "storage",
-    "https://api.jubiwee.com/" 
-  ],
   "entryPoints": [
     {
       "id": "510e9e0c-e3b8-44a8-8db1-5185d3d844ce",
@@ -56,8 +52,8 @@
             "de": "Spotify Link"
           },
           "placeholder": {
-            "en": "https://open.spotify.com/track/...",
-            "de": "https://open.spotify.com/track/..."
+            "en": "https://open.spotify.com/album/4RuzGKLG99XctuBMBkFFOC",
+            "de": "https://open.spotify.com/album/4RuzGKLG99XctuBMBkFFOC"
           },
           "description": {
             "en": "Enter a Spotify link you get through the share menu.",
@@ -65,7 +61,7 @@
           },
           "pattern": "^https:\\/\\/open\\.spotify\\.com\\/(track|album|playlist)\\/[A-Za-z0-9]+$",
           "required": true,
-          "default": "https://open.spotify.com/track/..."
+          "default": "https://open.spotify.com/album/4RuzGKLG99XctuBMBkFFOC" 
         },
         {
           "key": "spotifyLayout",
@@ -103,7 +99,7 @@
             }
           ],
           "required": true,
-          "default": "LARGE"
+          "default": "LARGE" 
         }
       ]
     },
@@ -127,8 +123,8 @@
             "de": "Spotify Link"
           },
           "placeholder": {
-            "en": "https://open.spotify.com/track/...",
-            "de": "https://open.spotify.com/track/..."
+            "en": "https://open.spotify.com/album/4RuzGKLG99XctuBMBkFFOC",
+            "de": "https://open.spotify.com/album/4RuzGKLG99XctuBMBkFFOC"
           },
           "description": {
             "en": "Enter a Spotify link you get through the share menu.",
@@ -136,7 +132,7 @@
           },
           "pattern": "^https:\\/\\/open\\.spotify\\.com\\/(track|album|playlist)\\/[A-Za-z0-9]+$",
           "required": true,
-          "default": "https://open.spotify.com/track/..."
+          "default": "https://open.spotify.com/album/4RuzGKLG99XctuBMBkFFOC" 
         },
         {
           "key": "spotifyLayout",
@@ -174,7 +170,7 @@
             }
           ],
           "required": true,
-          "default": "LARGE"
+          "default": "LARGE" 
         }
       ]
     }
