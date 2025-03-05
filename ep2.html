@@ -3,11 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Second Site</title>
+    <title>Personal View 1</title>
+    <style id="pluginStyles"></style>
 </head>
 <body>
     <h1>Hello, <span id="userName">loading...</span>!</h1>
     <p>Welcome to your personal dashboard.</p>
-    <script src="script.ts" type="module"></script>
+    <div id="spotifyEmbed"></div>
+    <script type="module">
+        // Accessing plugin context and configuration
+        async function initializePlugin() {
+            try {
+                const pluginContext = await window.coyo.getPluginContext();
+                const pluginConfig = await window.coyo.getPluginConfig();
+
+                // Set username
+                document.getElementById('userName').textContent = pluginContext.userName;
+
+                // Apply background color
+                const backgroundColor = pluginConfig.background;
+                document.getElementById('pluginStyles').textContent = `body { background-color: ${backgroundColor}; }`;
+
+                // Embed Spotify
+                const spotifyLink = pluginConfig.spotifyLink;
+                const spotifyLayout = pluginConfig.spotifyLayout;
+                const spotifyEmbedDiv = document.getElementById('spotifyEmbed');
+
+                if (spotifyLink) {
+                    let embedCode = '';
+                    if (spotifyLayout === 'LARGE') {
+                        embedCode = `<iframe style="border-radius:12px" src="https://open.spotify.com/embed/${spotifyLink.split('/').pop()}?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>`;
+                    } else {
+                        embedCode = `<iframe style="border-radius:12px" src="https://open.spotify.com/embed/${spotifyLink.split('/').pop()}?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>`;
+                    }
+                    spotifyEmbedDiv.innerHTML = embedCode;
+                }
+
+            } catch (error) {
+                console.error('Plugin initialization error:', error);
+                document.getElementById('userName').textContent = 'Error loading data.';
+            }
+        }
+
+        initializePlugin();
+    </script>
 </body>
 </html>
