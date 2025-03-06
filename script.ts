@@ -1,33 +1,54 @@
-import {PluginAdapter} from '@coyoapp/plugin-adapter';
+import { PluginAdapter } from '@coyoapp/plugin-adapter';
 
 export class DemoPlugin {
+    private adapter: PluginAdapter;
+
     constructor() {
-        const adapter = new PluginAdapter();
-        adapter.init().then(data => {
+        this.adapter = new PluginAdapter();
+        this.init();
+    }
+
+    private async init() {
+        try {
+            const data = await this.adapter.init();
+            console.log("Plugin initialized:", data);
+
+            // Fetch and display userName
             const name = data['ctx.userName'];
             this.changeName(name);
 
+            // Fetch and set background color
             const background = data['cfg.background'];
             this.setBackgroundColor(background);
 
+            // Fetch and add Spotify link
             const spotifyLayout = data['cfg.spotifyLayout'];
             const spotifyLink = data['cfg.spotifyLink'];
             if (spotifyLink && spotifyLayout) {
                 this.addSpotify(spotifyLink, spotifyLayout);
             }
-        });
-        adapter.observeHeight();
+
+            this.adapter.observeHeight(); // Ensure height adjustments
+        } catch (error) {
+            console.error("Failed to initialize the plugin:", error);
+        }
     }
 
     private changeName(userName: string) {
-        const nameElem = document.getElementById('userName')!;
+        const nameElem = document.getElementById('userName');
         if (nameElem) {
             nameElem.innerText = userName;
+        } else {
+            console.warn('Element with id userName not found');
         }
     }
 
     private setBackgroundColor(background: string) {
-        document.body.style.backgroundColor = background;
+        if (background) {
+            document.body.style.backgroundColor = background;
+        } else {
+            console.warn('No background color specified');
+        }
     }
 
     private addSpotify(spotifyLink: string, spotifyLayout: "LARGE" | "COMPACT") {

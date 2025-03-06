@@ -9,26 +9,29 @@
 <body>
     <h1>Hello, <span id="userName">loading...</span>!</h1>
     <p>Welcome to your personal dashboard.</p>
+    <p>ep2 site ep2 site</p>
     <div id="spotifyEmbed"></div>
     <script type="module">
-        // Accessing plugin context and configuration
+        // Accessing manifest data and plugin context/configuration
         async function initializePlugin() {
             try {
-                const pluginContext = await window.coyo.getPluginContext();
-                const pluginConfig = await window.coyo.getPluginConfig();
+                const pluginAdapter = await window.coyo.pluginAdapter();
+                const manifestData = await pluginAdapter.getManifest(); // Fetching data from manifest
+                const pluginContext = await pluginAdapter.getPluginContext();
+                const pluginConfig = await pluginAdapter.getPluginConfig();
 
-                // Set username
-                document.getElementById('userName').textContent = pluginContext.userName;
+                // Set username from context
+                document.getElementById('userName').textContent = pluginContext.userName || manifestData.userName;
 
-                // Apply background color
-                const backgroundColor = pluginConfig.background;
+                // Apply background color from pluginConfig or manifest
+                const backgroundColor = pluginConfig.background || manifestData.defaultBackground;
                 document.getElementById('pluginStyles').textContent = `body { background-color: ${backgroundColor}; }`;
-a
-                // Embed Spotify
-                const spotifyLink = pluginConfig.spotifyLink;
-                const spotifyLayout = pluginConfig.spotifyLayout;
+
+                // Embed Spotify from configuration
+                const spotifyLink = pluginConfig.spotifyLink || manifestData.defaultSpotifyLink;
+                const spotifyLayout = pluginConfig.spotifyLayout || manifestData.defaultSpotifyLayout;
                 const spotifyEmbedDiv = document.getElementById('spotifyEmbed');
-              <p>  aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
+
                 if (spotifyLink) {
                     let embedCode = '';
                     if (spotifyLayout === 'LARGE') {
