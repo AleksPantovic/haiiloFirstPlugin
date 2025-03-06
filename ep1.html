@@ -15,31 +15,36 @@
         // Accessing manifest data and plugin context/configuration
         async function initializePlugin() {
             try {
-                const pluginAdapter = await window.coyo.pluginAdapter();
-                const manifestData = await pluginAdapter.getManifest(); // Fetching data from manifest
-                const pluginContext = await pluginAdapter.getPluginContext();
-                const pluginConfig = await pluginAdapter.getPluginConfig();
+                // Check if pluginAdapter exists
+                if (window.coyo && typeof window.coyo.pluginAdapter === 'function') {
+                    const pluginAdapter = await window.coyo.pluginAdapter();
+                    const manifestData = await pluginAdapter.getManifest(); // Fetching data from manifest
+                    const pluginContext = await pluginAdapter.getPluginContext();
+                    const pluginConfig = await pluginAdapter.getPluginConfig();
 
-                // Set username from context
-                document.getElementById('userName').textContent = pluginContext.userName || manifestData.userName;
+                    // Set username from context or manifest data
+                    document.getElementById('userName').textContent = pluginContext.userName || manifestData.userName;
 
-                // Apply background color from pluginConfig or manifest
-                const backgroundColor = pluginConfig.background || manifestData.defaultBackground;
-                document.getElementById('pluginStyles').textContent = `body { background-color: ${backgroundColor}; }`;
+                    // Apply background color from pluginConfig or manifest
+                    const backgroundColor = pluginConfig.background || manifestData.defaultBackground;
+                    document.getElementById('pluginStyles').textContent = `body { background-color: ${backgroundColor}; }`;
 
-                // Embed Spotify from configuration
-                const spotifyLink = pluginConfig.spotifyLink || manifestData.defaultSpotifyLink;
-                const spotifyLayout = pluginConfig.spotifyLayout || manifestData.defaultSpotifyLayout;
-                const spotifyEmbedDiv = document.getElementById('spotifyEmbed');
+                    // Embed Spotify from configuration
+                    const spotifyLink = pluginConfig.spotifyLink || manifestData.defaultSpotifyLink;
+                    const spotifyLayout = pluginConfig.spotifyLayout || manifestData.defaultSpotifyLayout;
+                    const spotifyEmbedDiv = document.getElementById('spotifyEmbed');
 
-                if (spotifyLink) {
-                    let embedCode = '';
-                    if (spotifyLayout === 'LARGE') {
-                        embedCode = `<iframe style="border-radius:12px" src="https://open.spotify.com/embed/${spotifyLink.split('/').pop()}?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>`;
-                    } else {
-                        embedCode = `<iframe style="border-radius:12px" src="https://open.spotify.com/embed/${spotifyLink.split('/').pop()}?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>`;
+                    if (spotifyLink) {
+                        let embedCode = '';
+                        if (spotifyLayout === 'LARGE') {
+                            embedCode = `<iframe style="border-radius:12px" src="https://open.spotify.com/embed/${spotifyLink.split('/').pop()}?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>`;
+                        } else {
+                            embedCode = `<iframe style="border-radius:12px" src="https://open.spotify.com/embed/${spotifyLink.split('/').pop()}?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>`;
+                        }
+                        spotifyEmbedDiv.innerHTML = embedCode;
                     }
-                    spotifyEmbedDiv.innerHTML = embedCode;
+                } else {
+                    throw new Error('pluginAdapter is not available');
                 }
 
             } catch (error) {
