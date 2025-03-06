@@ -4,6 +4,7 @@ export class DemoPlugin {
     private adapter: PluginAdapter;
 
     constructor() {
+        console.log("DemoPlugin constructor called");
         this.adapter = new PluginAdapter();
         this.init();
     }
