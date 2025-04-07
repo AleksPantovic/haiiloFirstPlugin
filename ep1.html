@@ -15,7 +15,7 @@
     <script type="module" src="/script.js"></script>
     <script type="module">
         console.log("Initializing plugin...");
-
+    
         // Function to handle received data
         function handleReceivedData(data) {
             // Display username
@@ -24,13 +24,13 @@
             if (userNameElem && userName) {
                 userNameElem.textContent = userName;
             }
-
+    
             // Set background color
             const backgroundColor = data['cfg.background'];
             if (backgroundColor) {
                 document.body.style.backgroundColor = backgroundColor;
             }
-
+    
             // Add Spotify embed
             const spotifyLink = data['cfg.spotifyLink'];
             const spotifyLayout = data['cfg.spotifyLayout'];
@@ -44,13 +44,38 @@
                 }
                 spotifyEmbedDiv.innerHTML = embedCode;
             }
+    
+            // Fetch Teams data from Active Directory
+            const activeDirectoryLink = data['cfg.activeDirectoryLink'];
+            if (activeDirectoryLink) {
+                fetchTeamsData(activeDirectoryLink);
+            }
         }
-
+    
+        // Function to fetch Teams data
+        async function fetchTeamsData(activeDirectoryLink) {
+            try {
+                const response = await fetch(`${activeDirectoryLink}/teams-data`);
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch Teams data: ${response.statusText}`);
+                }
+                const teamsData = await response.json();
+                console.log("Fetched Teams data:", teamsData);
+    
+                // Display Teams data (example)
+                const teamsDiv = document.createElement('div');
+                teamsDiv.innerHTML = `<pre>${JSON.stringify(teamsData, null, 2)}</pre>`;
+                document.body.appendChild(teamsDiv);
+            } catch (error) {
+                console.error("Error fetching Teams data:", error);
+            }
+        }
+    
         // Initialize plugin and handle data
         if (window.coyo && typeof window.coyo.pluginAdapter === 'function') {
             console.log("pluginAdapter is available");
             const demoPlugin = new DemoPlugin();
-
+    
             // Listen for data updates (if needed)
             demoPlugin.adapter.onDataUpdate((data) => {
                 console.log("Data updated:", data);
