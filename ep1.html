@@ -52,10 +52,10 @@
             }
         }
     
-        // Function to fetch Teams data
+        // Fetch Teams data from backend
         async function fetchTeamsData(activeDirectoryLink) {
             try {
-                const response = await fetch(`${activeDirectoryLink}/teams-data`);
+                const response = await fetch(`/api/teams-data?activeDirectoryLink=${encodeURIComponent(activeDirectoryLink)}`);
                 if (!response.ok) {
                     throw new Error(`Failed to fetch Teams data: ${response.statusText}`);
                 }

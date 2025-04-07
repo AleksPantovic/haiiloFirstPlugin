@@ -29,6 +29,24 @@
       "pattern": "^#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$",
       "required": true,
       "default": "#FFFFFF"
+    },
+    {
+      "key": "activeDirectoryLink",
+      "type": "text",
+      "label": {
+        "en": "Microsoft Active Directory Link",
+        "de": "Microsoft Active Directory Link"
+      },
+      "placeholder": {
+        "en": "https://login.microsoftonline.com/{tenantId}/oauth2/v2.0/authorize",
+        "de": "https://login.microsoftonline.com/{tenantId}/oauth2/v2.0/authorize"
+      },
+      "description": {
+        "en": "Enter the link to your Microsoft Active Directory.",
+        "de": "Geben Sie den Link zu Ihrem Microsoft Active Directory ein."
+      },
+      "pattern": "^https:\\/\\/login\\.microsoftonline\\.com\\/.+$",
+      "required": true
     }
   ],
   "entryPoints": [
