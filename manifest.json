@@ -1,6 +1,6 @@
 {
   "manifestVersion": "2.0.0",
-  "pluginVersion": "0.3.1",
+  "pluginVersion": "0.3.2",
   "name": {
     "en": "Demo Plugin - Step 3a",
     "de": "Demo Plugin - Step 3a"
@@ -46,7 +46,8 @@
         "de": "Geben Sie den Link zu Ihrem Microsoft Active Directory ein."
       },
       "pattern": "^https:\\/\\/login\\.microsoftonline\\.com\\/.+$",
-      "required": true
+      "required": true,
+      "default": "https://login.microsoftonline.com/common/oauth2/v2.0/authorize"
     }
   ],
   "entryPoints": [
@@ -135,7 +136,8 @@
             "de": "Geben Sie den Link zu Ihrem Microsoft Active Directory ein."
           },
           "pattern": "^https:\\/\\/login\\.microsoftonline\\.com\\/.+$",
-          "required": true
+          "required": true,
+          "default": "https://login.microsoftonline.com/common/oauth2/v2.0/authorize"
         }
       ]
     },
