@@ -3,87 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Personal View 1</title>
-    <style id="pluginStyles"></style>
+    <title>Microsoft AD Data Editor</title>
 </head>
 <body>
-    <h1>Hello, <span id="userName">loading...</span>!</h1>
-    <p>Welcome to your personal dashboard.</p>
-    <p>ep2 site ep2 site</p>
-    <div id="spotifyEmbed"></div>
+    <h1>Microsoft Active Directory Data Editor</h1>
+    <div id="dataEditor">
+        <textarea id="dataInput" rows="10" cols="50" placeholder="Edit fetched data here..."></textarea>
+        <button id="saveData">Save Data</button>
+    </div>
 
-    <script type="module" src="/script.js"></script>
     <script type="module">
-        console.log("Initializing plugin...");
-    
-        // Function to handle received data
-        function handleReceivedData(data) {
-            // Display username
-            const userName = data['ctx.userName'];
-            const userNameElem = document.getElementById('userName');
-            if (userNameElem && userName) {
-                userNameElem.textContent = userName;
-            }
-    
-            // Set background color
-            const backgroundColor = data['cfg.background'];
-            if (backgroundColor) {
-                document.body.style.backgroundColor = backgroundColor;
-            }
-    
-            // Add Spotify embed
-            const spotifyLink = data['cfg.spotifyLink'];
-            const spotifyLayout = data['cfg.spotifyLayout'];
-            const spotifyEmbedDiv = document.getElementById('spotifyEmbed');
-            if (spotifyLink && spotifyLayout && spotifyEmbedDiv) {
-                let embedCode = '';
-                if (spotifyLayout === 'LARGE') {
-                    embedCode = `<iframe style="border-radius:12px" src="https://open.spotify.com/embed/${spotifyLink.split('/').pop()}?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>`;
-                } else {
-                    embedCode = `<iframe style="border-radius:12px" src="https://open.spotify.com/embed/${spotifyLink.split('/').pop()}?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>`;
-                }
-                spotifyEmbedDiv.innerHTML = embedCode;
-            }
-    
-            // Fetch Teams data from Active Directory
-            const activeDirectoryLink = data['cfg.activeDirectoryLink'];
-            if (activeDirectoryLink) {
-                fetchTeamsData(activeDirectoryLink);
-            }
-        }
-    
-        // Fetch Teams data from backend
-        async function fetchTeamsData(activeDirectoryLink) {
+        async function fetchAndEditData(activeDirectoryLink) {
             try {
                 const response = await fetch(`/api/teams-data?activeDirectoryLink=${encodeURIComponent(activeDirectoryLink)}`);
                 if (!response.ok) {
-                    throw new Error(`Failed to fetch Teams data: ${response.statusText}`);
+                    throw new Error(`Failed to fetch data: ${response.statusText}`);
                 }
-                const teamsData = await response.json();
-                console.log("Fetched Teams data:", teamsData);
-    
-                // Display Teams data (example)
-                const teamsDiv = document.createElement('div');
-                teamsDiv.innerHTML = `<pre>${JSON.stringify(teamsData, null, 2)}</pre>`;
-                document.body.appendChild(teamsDiv);
+                const data = await response.json();
+                console.log("Fetched data:", data);
+
+                // Populate the textarea with fetched data
+                const dataInput = document.getElementById('dataInput');
+                dataInput.value = JSON.stringify(data, null, 2);
             } catch (error) {
-                console.error("Error fetching Teams data:", error);
+                console.error("Error fetching data:", error);
             }
         }
-    
-        // Initialize plugin and handle data
-        if (window.coyo && typeof window.coyo.pluginAdapter === 'function') {
-            console.log("pluginAdapter is available");
-            const demoPlugin = new DemoPlugin();
-    
-            // Listen for data updates (if needed)
-            demoPlugin.adapter.onDataUpdate((data) => {
-                console.log("Data updated:", data);
-                handleReceivedData(data);
-            });
-        } else {
-            console.error("pluginAdapter is not available");
+
+        async function saveEditedData() {
+            try {
+                const dataInput = document.getElementById('dataInput');
+                const editedData = JSON.parse(dataInput.value);
+
+                const response = await fetch('/api/save-data', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(editedData),
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Failed to save data: ${response.statusText}`);
+                }
+
+                console.log("Data saved successfully!");
+            } catch (error) {
+                console.error("Error saving data:", error);
+            }
         }
+
+        document.getElementById('saveData').addEventListener('click', saveEditedData);
+
+        // Replace with your actual Active Directory link
+        const activeDirectoryLink = "https://login.microsoftonline.com/common/oauth2/v2.0/authorize";
+        fetchAndEditData(activeDirectoryLink);
     </script>
 </body>
 </html>
