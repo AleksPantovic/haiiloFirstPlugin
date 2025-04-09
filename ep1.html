@@ -1,61 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Microsoft AD Data Editor</title>
+    <title>User Directory Fetcher</title>
+    <script>
+        // Paste the fetchHaiiloUserDirectory function here
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('fetch-btn').addEventListener('click', function() {
+                const status = document.getElementById('status');
+                status.textContent = 'Fetching user data...';
+                
+                fetchHaiiloUserDirectory()
+                    .then(users => {
+                        status.textContent = `Successfully fetched ${users.length} users`;
+                        console.log('User data:', users);
+                        // Call your mapping function here with the users array
+                    })
+                    .catch(error => {
+                        status.textContent = 'Error: ' + error.message;
+                        console.error(error);
+                    });
+            });
+        });
+    </script>
 </head>
 <body>
-    <h1>Microsoft Active Directory Data Editor</h1>
-    <div id="dataEditor">
-        <textarea id="dataInput" rows="10" cols="50" placeholder="Edit fetched data here..."></textarea>
-        <button id="saveData">Save Data</button>
-    </div>
-
-    <script type="module">
-        async function fetchAndEditData(activeDirectoryLink) {
-            try {
-                const response = await fetch(`/api/teams-data?activeDirectoryLink=${encodeURIComponent(activeDirectoryLink)}`);
-                if (!response.ok) {
-                    throw new Error(`Failed to fetch data: ${response.statusText}`);
-                }
-                const data = await response.json();
-                console.log("Fetched data:", data);
-
-                // Populate the textarea with fetched data
-                const dataInput = document.getElementById('dataInput');
-                dataInput.value = JSON.stringify(data, null, 2);
-            } catch (error) {
-                console.error("Error fetching data:", error);
-            }
-        }
-
-        async function saveEditedData() {
-            try {
-                const dataInput = document.getElementById('dataInput');
-                const editedData = JSON.parse(dataInput.value);
-
-                const response = await fetch('/api/save-data', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(editedData),
-                });
-
-                if (!response.ok) {
-                    throw new Error(`Failed to save data: ${response.statusText}`);
-                }
-
-                console.log("Data saved successfully!");
-            } catch (error) {
-                console.error("Error saving data:", error);
-            }
-        }
-
-        document.getElementById('saveData').addEventListener('click', saveEditedData);
-
-        // Replace with your actual Active Directory link
-        const activeDirectoryLink = "https://login.microsoftonline.com/common/oauth2/v2.0/authorize";
-        fetchAndEditData(activeDirectoryLink);
-    </script>
+    <button id="fetch-btn">Fetch User Directory</button>
+    <div id="status">Ready to fetch data</div>
 </body>
 </html>

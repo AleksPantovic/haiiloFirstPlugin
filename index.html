@@ -1,16 +1,31 @@
 <!DOCTYPE html>
-<head>
-    <meta charset="utf-8">
-    <title>Haiilo Home Demo Plug-in</title>
-    <meta content="A simple demo plug-in" name="description">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source Sans Pro">
-    <link rel="stylesheet" type="text/css" href="styles.css">
-</head>
 <html>
+<head>
+    <title>User Directory Fetcher</title>
+    <script>
+        // Paste the fetchHaiiloUserDirectory function here
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('fetch-btn').addEventListener('click', function() {
+                const status = document.getElementById('status');
+                status.textContent = 'Fetching user data...';
+                
+                fetchHaiiloUserDirectory()
+                    .then(users => {
+                        status.textContent = `Successfully fetched ${users.length} users`;
+                        console.log('User data:', users);
+                        // Call your mapping function here with the users array
+                    })
+                    .catch(error => {
+                        status.textContent = 'Error: ' + error.message;
+                        console.error(error);
+                    });
+            });
+        });
+    </script>
+</head>
 <body>
-<h1>Hello Haiilo Home</h1>
-<h1>Hello Haiilo Home</h1>
-<h1>Hello Haiilo Home</h1>
-<p>Welcome to our first static plug-in :)</p>
+    <button id="fetch-btn">Fetch User Directory</button>
+    <div id="status">Ready to fetch data</div>
 </body>
 </html>

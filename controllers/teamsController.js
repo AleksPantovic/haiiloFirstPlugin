@@ -1,42 +1,51 @@
 const express = require('express');
 const router = express.Router();
 const fetch = require('node-fetch');
+const qs = require('querystring');
 
-// In-memory storage for the Active Directory link
-let activeDirectoryLink = null;
-
-// Endpoint to set the Active Directory link
-router.post('/set-ad-link', (req, res) => {
-    const { link } = req.body;
-
-    if (!link || !/^https:\/\/login\.microsoftonline\.com\/.+$/.test(link)) {
-        return res.status(400).json({ error: 'Invalid Active Directory link' });
-    }
-
-    activeDirectoryLink = link;
-    res.json({ message: 'Active Directory link set successfully' });
-});
+// Replace these with your actual values
+const CLIENT_ID = 'YOUR_CLIENT_ID';
+const CLIENT_SECRET = 'YOUR_CLIENT_SECRET';
+const TENANT_ID = 'YOUR_TENANT_ID';
 
 // Endpoint to fetch and process Teams data
 router.get('/teams-data', async (req, res) => {
-    if (!activeDirectoryLink) {
-        return res.status(400).json({ error: 'Active Directory link is not set' });
-    }
-
     try {
-        // Fetch data from the Active Directory API
-        const response = await fetch(`${activeDirectoryLink}/teams-data`);
-        if (!response.ok) {
-            throw new Error(`Failed to fetch data: ${response.statusText}`);
+        // Step 1: Get an access token
+        const tokenResponse = await fetch(`https://login.microsoftonline.com/${TENANT_ID}/oauth2/v2.0/token`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: qs.stringify({
+                client_id: CLIENT_ID,
+                client_secret: CLIENT_SECRET,
+                scope: 'https://graph.microsoft.com/.default',
+                grant_type: 'client_credentials',
+            }),
+        });
+
+        if (!tokenResponse.ok) {
+            throw new Error(`Failed to get access token: ${tokenResponse.statusText}`);
         }
 
-        const teamsData = await response.json();
+        const tokenData = await tokenResponse.json();
+        const accessToken = tokenData.access_token;
 
-        // Process the data (example: filter and map it)
-        const processedData = teamsData.map(team => ({
-            id: team.id,
-            name: team.displayName,
-            description: team.description || 'No description available'
+        // Step 2: Fetch data from Microsoft Graph API
+        const graphResponse = await fetch('https://graph.microsoft.com/v1.0/users', {
+            headers: { Authorization: `Bearer ${accessToken}` },
+        });
+
+        if (!graphResponse.ok) {
+            throw new Error(`Failed to fetch data: ${graphResponse.statusText}`);
+        }
+
+        const graphData = await graphResponse.json();
+
+        // Step 3: Process the data (example: map user data)
+        const processedData = graphData.value.map(user => ({
+            id: user.id,
+            displayName: user.displayName,
+            email: user.mail || 'No email available',
         }));
 
         res.json(processedData);
