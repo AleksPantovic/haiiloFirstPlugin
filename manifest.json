@@ -1,8 +1,12 @@
 {
-  "manifestVersion": "2.0.0",
-  "pluginVersion": "0.3.2",
-  "name": "User Directory Fetcher",
-  "description": "Fetches user directory data from Haiilo",
+  "manifestVersion": "2.5.0",
+  "pluginVersion": "1.0.0",
+  "name": {
+    "en": "User Directory Fetcher"
+  },
+  "description": {
+    "en": "Fetches user directory data from Haiilo."
+  },
   "version": "1.0",
   "identifier": "com.yourcompany.userdirectory",
   "apiVersion": "1.0",
@@ -12,8 +16,12 @@
   ],
   "entryPoints": [
     {
+      "id": "user-directory-fetcher",
+      "name": {
+        "en": "User Directory Fetcher"
+      },
       "type": "dashboard",
-      "url": "index.html"
+      "url": "/ep1.html"
     }
   ]
 }
