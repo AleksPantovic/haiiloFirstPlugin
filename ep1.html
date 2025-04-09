@@ -1,33 +1,38 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>User Directory Fetcher</title>
+    <title>User Directory Viewer</title>
     <script>
-        async function fetchHaiiloUserDirectory() {
-            // Replace this with your actual API call
-            const response = await fetch('/api/teams-data');
-            if (!response.ok) {
-                throw new Error(`Failed to fetch data: ${response.statusText}`);
+        async function fetchUserDirectory() {
+            try {
+                // Replace with the actual ID of your user directory
+                const userDirectoryId = "YOUR_USER_DIRECTORY_ID"; 
+                const response = await fetch(`/api/userdirectories/${userDirectoryId}`);
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch data: ${response.statusText}`);
+                }
+                return await response.json();
+            } catch (error) {
+                console.error("Error fetching user directory:", error);
+                throw error;
             }
-            return await response.json();
         }
 
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('fetch-btn').addEventListener('click', function() {
                 const status = document.getElementById('status');
                 const output = document.getElementById('output');
-                status.textContent = 'Fetching user data...';
+                status.textContent = 'Fetching user directory data...';
                 output.textContent = ''; // Clear previous output
 
-                fetchHaiiloUserDirectory()
-                    .then(users => {
-                        status.textContent = `Successfully fetched ${users.length} users`;
-                        output.textContent = JSON.stringify(users, null, 2); // Display JSON data
-                        console.log('User data:', users);
+                fetchUserDirectory()
+                    .then(data => {
+                        status.textContent = 'Successfully fetched user directory data';
+                        output.textContent = JSON.stringify(data, null, 2); // Display JSON data
+                        console.log('User directory data:', data);
                     })
                     .catch(error => {
                         status.textContent = 'Error: ' + error.message;
-                        console.error(error);
                     });
             });
         });
