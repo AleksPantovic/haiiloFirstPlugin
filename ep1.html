@@ -5,13 +5,24 @@
     <script>
         async function fetchUserDirectory() {
             try {
-                // Replace with the actual ID of your user directory
-                const userDirectoryId = "YOUR_USER_DIRECTORY_ID"; 
-                const response = await fetch(`/api/userdirectories/${userDirectoryId}`);
+                const response = await fetch('/api/userdirectories');
                 if (!response.ok) {
-                    throw new Error(`Failed to fetch data: ${response.statusText}`);
+                    throw new Error(`Failed to fetch user directories: ${response.statusText}`);
                 }
-                return await response.json();
+
+                const directories = await response.json();
+                if (directories.length === 0) {
+                    throw new Error('No user directories found.');
+                }
+
+                // Assuming the first directory is the one you want
+                const userDirectoryId = directories[0].id;
+                const directoryResponse = await fetch(`/api/userdirectories/${userDirectoryId}`);
+                if (!directoryResponse.ok) {
+                    throw new Error(`Failed to fetch user directory: ${directoryResponse.statusText}`);
+                }
+
+                return await directoryResponse.json();
             } catch (error) {
                 console.error("Error fetching user directory:", error);
                 throw error;
