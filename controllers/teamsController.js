@@ -55,7 +55,7 @@ router.get('/userdirectories/:id', async (req, res) => {
 // Endpoint to fetch all users
 router.get('/users', async (req, res) => {
     try {
-        const haiiloApiUrl = `https://asioso.coyocloud.com/api/users`;
+        const haiiloApiUrl = `https://asioso.coyocloud.com/api/users`; // Correct Haiilo API URL
         const response = await fetch(haiiloApiUrl, {
             method: 'GET',
             headers: {
