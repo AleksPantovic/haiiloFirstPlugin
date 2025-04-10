@@ -3,20 +3,6 @@
 <head>
     <title>User Viewer</title>
     <script>
-        async function fetchUsers() {
-            try {
-                const response = await fetch('https://asioso.coyocloud.com/api/users'); // Ensure this points to your backend
-                if (!response.ok) {
-                    throw new Error(`Failed to fetch users: ${response.statusText}`);
-                }
-
-                return await response.json();
-            } catch (error) {
-                console.error("Error fetching users:", error);
-                throw error;
-            }
-        }
-
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('fetch-btn').addEventListener('click', function() {
                 const status = document.getElementById('status');
@@ -24,7 +10,14 @@
                 status.textContent = 'Fetching user data...';
                 output.textContent = ''; // Clear previous output
 
-                fetchUsers()
+                // Fetch data from the backend
+                fetch('https://asioso.coyocloud.com/api/users') // Call the backend endpoint
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`Failed to fetch users: ${response.statusText}`);
+                        }
+                        return response.json();
+                    })
                     .then(data => {
                         status.textContent = 'Successfully fetched user data';
                         output.textContent = JSON.stringify(data, null, 2); // Display JSON data
@@ -32,6 +25,7 @@
                     })
                     .catch(error => {
                         status.textContent = 'Error: ' + error.message;
+                        console.error(error);
                     });
             });
         });
