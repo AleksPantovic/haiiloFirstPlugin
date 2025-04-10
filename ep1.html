@@ -1,30 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>User Directory Viewer</title>
+    <title>User Viewer</title>
     <script>
-        async function fetchUserDirectory() {
+        async function fetchUsers() {
             try {
-                const response = await fetch('/api/userdirectories');
+                const response = await fetch('/api/users');
                 if (!response.ok) {
-                    throw new Error(`Failed to fetch user directories: ${response.statusText}`);
+                    throw new Error(`Failed to fetch users: ${response.statusText}`);
                 }
 
-                const directories = await response.json();
-                if (directories.length === 0) {
-                    throw new Error('No user directories found.');
-                }
-
-                // Assuming the first directory is the one you want
-                const userDirectoryId = directories[0].id;
-                const directoryResponse = await fetch(`/api/userdirectories/${userDirectoryId}`);
-                if (!directoryResponse.ok) {
-                    throw new Error(`Failed to fetch user directory: ${directoryResponse.statusText}`);
-                }
-
-                return await directoryResponse.json();
+                return await response.json();
             } catch (error) {
-                console.error("Error fetching user directory:", error);
+                console.error("Error fetching users:", error);
                 throw error;
             }
         }
@@ -33,14 +21,14 @@
             document.getElementById('fetch-btn').addEventListener('click', function() {
                 const status = document.getElementById('status');
                 const output = document.getElementById('output');
-                status.textContent = 'Fetching user directory data...';
+                status.textContent = 'Fetching user data...';
                 output.textContent = ''; // Clear previous output
 
-                fetchUserDirectory()
+                fetchUsers()
                     .then(data => {
-                        status.textContent = 'Successfully fetched user directory data';
+                        status.textContent = 'Successfully fetched user data';
                         output.textContent = JSON.stringify(data, null, 2); // Display JSON data
-                        console.log('User directory data:', data);
+                        console.log('User data:', data);
                     })
                     .catch(error => {
                         status.textContent = 'Error: ' + error.message;
@@ -50,7 +38,7 @@
     </script>
 </head>
 <body>
-    <button id="fetch-btn">Fetch User Directory</button>
+    <button id="fetch-btn">Fetch Users</button>
     <div id="status">Ready to fetch data</div>
     <pre id="output" style="background: #f4f4f4; padding: 10px; border: 1px solid #ddd;"></pre>
 </body>

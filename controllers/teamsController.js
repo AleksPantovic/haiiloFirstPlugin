@@ -9,7 +9,7 @@ router.get('/userdirectories', async (req, res) => {
         const response = await fetch(haiiloApiUrl, {
             method: 'GET',
             headers: {
-                'Authorization': `Bearer YOUR_ACCESS_TOKEN`, // Replace with your Haiilo API token
+                'Authorization': `Bearer 81dd0c6a-6fd9-43ff-878c-21327b07ae1b`, // Replace with your Haiilo API token
                 'Content-Type': 'application/json'
             }
         });
@@ -35,7 +35,7 @@ router.get('/userdirectories/:id', async (req, res) => {
         const response = await fetch(haiiloApiUrl, {
             method: 'GET',
             headers: {
-                'Authorization': `Bearer YOUR_ACCESS_TOKEN`, // Replace with your Haiilo API token
+                'Authorization': `Bearer 81dd0c6a-6fd9-43ff-878c-21327b07ae1b`, // Replace with your Haiilo API token
                 'Content-Type': 'application/json'
             }
         });
@@ -49,6 +49,56 @@ router.get('/userdirectories/:id', async (req, res) => {
     } catch (error) {
         console.error('Error fetching user directory:', error);
         res.status(500).json({ error: 'Failed to fetch user directory' });
+    }
+});
+
+// Endpoint to fetch all users
+router.get('/users', async (req, res) => {
+    try {
+        const haiiloApiUrl = `https://asioso.coyocloud.com/api/users`;
+        const response = await fetch(haiiloApiUrl, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer 81dd0c6a-6fd9-43ff-878c-21327b07ae1b`, // Replace with your Haiilo API token
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`Failed to fetch users: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        res.json(data);
+    } catch (error) {
+        console.error('Error fetching users:', error);
+        res.status(500).json({ error: 'Failed to fetch users' });
+    }
+});
+
+// Endpoint to fetch a specific user by ID
+router.get('/users/:id', async (req, res) => {
+    const userId = req.params.id;
+
+    try {
+        const haiiloApiUrl = `https://asioso.coyocloud.com/api/users/${userId}`;
+        const response = await fetch(haiiloApiUrl, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer 81dd0c6a-6fd9-43ff-878c-21327b07ae1b`, // Replace with your Haiilo API token
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`Failed to fetch user: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        res.json(data);
+    } catch (error) {
+        console.error('Error fetching user:', error);
+        res.status(500).json({ error: 'Failed to fetch user' });
     }
 });
 
