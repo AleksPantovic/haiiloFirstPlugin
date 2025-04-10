@@ -3,18 +3,31 @@
 <head>
     <title>User Directory Fetcher</title>
     <script>
-        // Paste the fetchHaiiloUserDirectory function here
-        
+        async function fetchHaiiloUserDirectory() {
+            try {
+                const response = await fetch('/api/users'); // Ensure this points to your backend
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch user directory: ${response.statusText}`);
+                }
+                return await response.json();
+            } catch (error) {
+                console.error("Error fetching user directory:", error);
+                throw error;
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('fetch-btn').addEventListener('click', function() {
                 const status = document.getElementById('status');
-                status.textContent = 'Fetching user data...';
-                
+                const output = document.getElementById('output');
+                status.textContent = 'Fetching user directory data...';
+                output.textContent = ''; // Clear previous output
+
                 fetchHaiiloUserDirectory()
                     .then(users => {
                         status.textContent = `Successfully fetched ${users.length} users`;
+                        output.textContent = JSON.stringify(users, null, 2); // Display JSON data
                         console.log('User data:', users);
-                        // Call your mapping function here with the users array
                     })
                     .catch(error => {
                         status.textContent = 'Error: ' + error.message;
@@ -27,5 +40,6 @@
 <body>
     <button id="fetch-btn">Fetch User Directory</button>
     <div id="status">Ready to fetch data</div>
+    <pre id="output" style="background: #f4f4f4; padding: 10px; border: 1px solid #ddd;"></pre>
 </body>
 </html>
