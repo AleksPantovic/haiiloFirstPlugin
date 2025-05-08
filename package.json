@@ -1,6 +1,7 @@
 {
   "dependencies": {
-    "@coyoapp/plugin-adapter": "^0.3.1"
+    "@coyoapp/plugin-adapter": "^0.3.1",
+    "jsonwebtoken": "^9.0.0"
   },
   "devDependencies": {
     "typescript": "^5.8.2"

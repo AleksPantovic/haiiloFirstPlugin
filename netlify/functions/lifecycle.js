@@ -46,3 +46,16 @@ exports.handler = async (event) => {
         };
     }
 };
+
+// Example usage
+function validateToken(token) {
+    try {
+        const decoded = jwt.verify(token, 'your-secret-key'); // Replace with your actual secret or public key
+        return decoded;
+    } catch (error) {
+        console.error('JWT Validation Error:', error.message);
+        throw new Error('Invalid token');
+    }
+}
+
+module.exports = { validateToken };
