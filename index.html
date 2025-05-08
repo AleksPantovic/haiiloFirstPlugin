@@ -10,8 +10,8 @@
                 status.textContent = 'Fetching user data...';
                 output.textContent = ''; // Clear previous output
 
-                // Fetch data from the deployed backend
-                fetch('https://asioso.coyocloud.com/api/users') // Replace with your backend URL
+                // Fetch data from the backend
+                fetch('/api/users') // Call the backend endpoint
                     .then(response => {
                         if (!response.ok) {
                             throw new Error(`Failed to fetch users: ${response.statusText}`);
